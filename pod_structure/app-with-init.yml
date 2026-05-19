@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-with-init
+spec:
+  # Init containers run FIRST
+  initContainers:
+    - name: wait-for-db
+      image: busybox:1.28
+      command: ['sh', '-c', 'echo "DB connection successful"']
+
+    - name: copy-config
+      image: alpine:3.18
+      command: ['sh', '-c', 'echo "config-key=config-value"']
+
+  # Main container starts AFTER all init containers complete
+  containers:
+    - name: app
+      image: alpine:latest
+      command: ['sh', '-c', 'echo "Main app started" & sleep 3600']
+      volumeMounts:
+        - name: workdir
+          mountPath: /work-dir
+  volumes:
+    - name: workdir
+      emptyDir: {}
