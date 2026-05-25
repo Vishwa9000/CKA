@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app-probe
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-app-probe
+  template:
+    metadata:
+      labels:
+        app: demo-app-probe
+    spec:
+      containers:
+        - name: demo-container-probe
+          image: nginx:1.21
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          startupProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 30   # allow up to 30 failures
+            periodSeconds: 10      # check every 10s
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5 # wait before first check
+            periodSeconds: 10      # check every 10s
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15 # wait before first check
+            periodSeconds: 20       # check every 20s
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-container-probe
+spec:
+  type: ClusterIP
+  selector:
+    app: demo-app-probe
+  ports:
+    - port: 80
+      targetPort: 80
