@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app-configmap
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: demo-app-configmap
+  template:
+    metadata:
+      labels:
+        app: demo-app-configmap
+    spec:
+      containers:
+        - name: demo-container-configmap
+          image: nginx:1.21
+          ports:
+            - containerPort: 80
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config-imperative
+                  key: DB_HOST
+          envFrom:
+            - configMapRef:
+                name: app-config-declarative
