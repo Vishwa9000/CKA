@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv              # cluster-scoped, no namespace
+  labels:
+    type: local
+spec:
+  capacity:
+    storage: 1Gi           # total size of this PV
+  accessModes:
+    - ReadWriteOnce        # one node R/W at a time
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:                # storage backend (lab use)
+    path: "/mnt/data"      # directory on the node
+
+  # For NFS:
+  # nfs:
+  #   server: 10.0.0.5
+  #   path: /exports/data
+
+  # For AWS EBS:
+  # awsElasticBlockStore:
+  #   volumeID: vol-0abc123
+  #   fsType: ext4
