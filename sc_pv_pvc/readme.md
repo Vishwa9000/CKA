@@ -21,6 +21,11 @@ This guide covers the essential commands for working with **StorageClass (SC)**,
   kubectl patch storageclass fast \
     -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
   ```
+  
+- **To install rancher storage class provisioner**
+  ```bash
+  kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
+  ```
 
 ---
 
