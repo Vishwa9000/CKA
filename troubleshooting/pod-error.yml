@@ -6,5 +6,5 @@ spec:
   containers:
   - name: crash-container
     image: busybox
-    command: ["sh", "-c", "echo 'Pod is Running successfully'; sleep 1000"]
+    command: ["sh", "-c", "echo 'Pod is Running successfully'; sleeeep 1000"]
     restartPolicy: Never
