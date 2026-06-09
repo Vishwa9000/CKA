@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod5
+spec:
+  containers:
+  - name: crash-container
+    image: busybox
+    command: ["sh", "-c", "echo 'Pod is Running successfully'; sleep 1000"]
+    restartPolicy: Never
