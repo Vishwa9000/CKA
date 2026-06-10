@@ -115,4 +115,3 @@ kubectl get pods --sort-by=.status.containerStatuses[0].restartCount
 - **`range`** → Loop through items one by one.  
 - **`?(@...)`** → Filter items based on conditions.  
 - **`--sort-by`** → Sort results by a chosen field.  
-```
